@@ -1,0 +1,47 @@
+name: 'AI Cost Guard'
+description: 'Track and limit AI API costs in CI workflows'
+author: 'fnrhombus'
+branding:
+  icon: 'shield'
+  color: 'orange'
+inputs:
+  action:
+    description: 'start or stop'
+    required: true
+  anthropic_api_key:
+    description: 'Anthropic API key for usage tracking'
+    required: true
+  max_cost:
+    description: 'Maximum cost in USD before failing the workflow'
+    required: false
+    default: '10.00'
+  start_time:
+    description: 'Start time from the start step (only for stop action)'
+    required: false
+  baseline_usage:
+    description: 'Baseline usage from start step (only for stop action)'
+    required: false
+  input_tokens:
+    description: 'Manually provided input token count (fallback mode, only for stop action)'
+    required: false
+  output_tokens:
+    description: 'Manually provided output token count (fallback mode, only for stop action)'
+    required: false
+  model:
+    description: 'Model ID for cost estimation when using manual token counts'
+    required: false
+    default: 'claude-sonnet-4-6'
+outputs:
+  start_time:
+    description: 'Timestamp when tracking started'
+  baseline_usage:
+    description: 'Usage snapshot at start'
+  total_input_tokens:
+    description: 'Input tokens used'
+  total_output_tokens:
+    description: 'Output tokens used'
+  estimated_cost:
+    description: 'Estimated cost in USD'
+runs:
+  using: 'node20'
+  main: 'packages/core/dist/index.js'
